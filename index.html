@@ -8,9 +8,9 @@
     <style>
         :root {
             --bg-color: #000000;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --accent-color: #ffffff;
+            /* Стекло стало супер прозрачным и милым */
+            --glass-bg: rgba(255, 255, 255, 0.02); 
+            --glass-border: rgba(255, 255, 255, 0.05);
         }
 
         * {
@@ -25,19 +25,6 @@
             color: #fff;
             overflow-x: hidden;
             line-height: 1.6;
-            position: relative;
-        }
-
-        /* Полоса справа */
-        body::after {
-            content: "";
-            position: fixed;
-            right: 10px;
-            top: 10%;
-            bottom: 10%;
-            width: 2px;
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent);
-            z-index: 10;
         }
 
         #bg-canvas {
@@ -47,123 +34,84 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            pointer-events: none;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 50px 20px;
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 20px;
             min-height: 100vh;
-            position: relative;
-            z-index: 2;
         }
 
-        /* Эффект матового стекла ( Glassmorphism ) */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 20px;
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            padding: 22px;
+            transition: transform 0.3s ease;
         }
 
-        .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* Заголовок с анимацией печати */
-        .typing-container {
+        .typing-main {
             text-align: center;
-            margin-bottom: 30px;
-        }
-
-        h1 {
             font-size: 2.2rem;
             font-weight: 700;
-            letter-spacing: -1px;
-            -webkit-font-smoothing: antialiased; /* Топ качество шрифта */
+            margin-bottom: 20px;
+            min-height: 1.2em;
         }
 
         .highlight {
-            color: #ffffff;
-            text-decoration: underline;
-            text-underline-offset: 4px;
-            font-weight: 600;
-            opacity: 0.8;
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
         }
-
-        .highlight:hover { opacity: 1; }
 
         ul { list-style: none; margin-top: 10px; }
-        li { padding-left: 20px; position: relative; margin-bottom: 5px; opacity: 0.9; }
-        li::before { content: "•"; position: absolute; left: 0; color: #fff; }
+        li { padding-left: 20px; position: relative; margin-bottom: 5px; color: rgba(255,255,255,0.8); }
+        li::before { content: "✨"; position: absolute; left: 0; font-size: 0.8rem; }
 
-        .footer-section {
+        /* Футер с анимацией */
+        .footer-info {
+            margin-top: auto;
             text-align: center;
-            margin-top: 50px;
-            padding-bottom: 40px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 30px;
+            padding: 40px 0;
         }
 
-        .creator-info {
-            font-size: 1rem;
+        .creator-link {
+            display: block;
             margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
         }
 
-        .last-update {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .last-update-text {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+            display: inline-block;
         }
 
-        /* Анимированные бабочки на фоне */
-        .background-butterfly {
-            position: fixed;
-            z-index: -1;
-            width: 150px;
-            height: auto;
-            pointer-events: none;
-            opacity: 0.15;
-            filter: blur(3px);
-            animation: floatButterfly 15s infinite ease-in-out;
+        /* Мигающий курсор */
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            background-color: #fff;
+            margin-left: 5px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
         }
 
-        .background-butterfly:nth-child(2) {
-            width: 100px;
-            top: 70%;
-            left: 10%;
-            animation-duration: 20s;
-            animation-delay: 2s;
-        }
-
-        .background-butterfly:nth-child(3) {
-            width: 80px;
-            top: 20%;
-            left: 70%;
-            animation-duration: 25s;
-            animation-delay: -5s;
-        }
-
-        @keyframes floatButterfly {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(10vw, -10vh) rotate(15deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         @media (max-width: 600px) {
-            h1 { font-size: 1.6rem; }
-            body::after { right: 4px; }
-            .background-butterfly { width: 100px; }
+            .typing-main { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -171,41 +119,8 @@
 
     <canvas id="bg-canvas"></canvas>
 
-    <svg class="background-butterfly" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="holoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#80e0ff; stop-opacity:1" />
-                <stop offset="50%" style="stop-color:#ff80ff; stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#80e0ff; stop-opacity:1" />
-            </linearGradient>
-            <mask id="wingsMask">
-                <path d="M100,75 L150,25 Q180,25 190,55 L190,95 Q180,125 150,125 Z M100,75 L50,25 Q20,25 10,55 L10,95 Q20,125 50,125 Z" fill="white"/>
-            </mask>
-        </defs>
-        <path d="M100,75 L150,25 Q180,25 190,55 L190,95 Q180,125 150,125 Z M100,75 L50,25 Q20,25 10,55 L10,95 Q20,125 50,125 Z" fill="url(#holoGradient)" mask="url(#wingsMask)"/>
-        <path d="M100,75 L100,20 Q105,15 105,10 M100,75 L100,20 Q95,15 95,10" stroke="white" stroke-width="1" fill="none"/>
-        <path d="M100,75 L102,130 Q100,135 98,130 Z" fill="white" opacity="0.8"/>
-    </svg>
-    <svg class="background-butterfly" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="holoGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#80e0ff; stop-opacity:1" />
-                <stop offset="50%" style="stop-color:#ff80ff; stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#80e0ff; stop-opacity:1" />
-            </linearGradient>
-            <mask id="wingsMask2">
-                <path d="M100,75 L150,25 Q180,25 190,55 L190,95 Q180,125 150,125 Z M100,75 L50,25 Q20,25 10,55 L10,95 Q20,125 50,125 Z" fill="white"/>
-            </mask>
-        </defs>
-        <path d="M100,75 L150,25 Q180,25 190,55 L190,95 Q180,125 150,125 Z M100,75 L50,25 Q20,25 10,55 L10,95 Q20,125 50,125 Z" fill="url(#holoGradient2)" mask="url(#wingsMask2)"/>
-        <path d="M100,75 L100,20 Q105,15 105,10 M100,75 L100,20 Q95,15 95,10" stroke="white" stroke-width="1" fill="none"/>
-        <path d="M100,75 L102,130 Q100,135 98,130 Z" fill="white" opacity="0.8"/>
-    </svg>
-
     <div class="container">
-        <div class="typing-container">
-            <h1 id="typing-text"></h1>
-        </div>
+        <h1 class="typing-main" id="type-title"></h1>
 
         <div class="glass-card">
             <p>Это веб сайт создан для информации обо мне и о том какие я имею проекты /социальные сети.</p>
@@ -216,83 +131,119 @@
         </div>
 
         <div class="glass-card">
-            <h2>Второй проект (бот)</h2>
+            <h2 style="margin-bottom:10px;">Второй проект (бот)</h2>
             <p><a href="https://t.me/OfficiallLouryXQ_bot" class="highlight">@OfficiallLouryXQ_bot</a></p>
-            <p style="margin-top:10px">Я создал этого бота для помощи начинающим читерам. Внутри тебя ждут:</p>
             <ul>
-                <li>✨ Понятный интерфейс</li>
-                <li>💻 Файлы .dll (ПК читы)</li>
-                <li>📱 Файлы .apk (PE читы)</li>
-                <li>⚙️ Конфигурации</li>
-                <li>🎨 Ресурспаки</li>
-                <li>🧩 Аддоны</li>
+                <li>Понятный интерфейс</li>
+                <li>Файлы .dll (ПК читы)</li>
+                <li>Файлы .apk (PE читы)</li>
+                <li>Конфигурации и Ресурспаки</li>
             </ul>
         </div>
 
         <div class="glass-card">
-            <p>Скачать самую новую версию Чита <b>Apollon Client</b> можно в основном проекте или в канале <a href="https://t.me/UpdateApollonClient" class="highlight">@UpdateApollonClient</a> (без лишних ссылок).</p>
+            <p>Обновления <b>Apollon Client</b> выходят сразу тут: <a href="https://t.me/UpdateApollonClient" class="highlight">@UpdateApollonClient</a></p>
         </div>
 
-        <div class="footer-section">
-            <p style="margin-bottom: 20px; font-size: 0.9rem; opacity: 0.5;">LouryXQ является частным и порядочным человеком с 80+ отзывами.</p>
-            <p class="creator-info">Создатель всех телеграмм проектов: <a href="https://t.me/LouryXQTT1" class="highlight">@LouryXQTT1</a></p>
-            <p class="last-update">последние изменения сайта 1 апреля 2026 года</p>
+        <div class="footer-info">
+            <span class="creator-link">Создатель всех телеграмм проектов: <a href="https://t.me/LouryXQTT1" class="highlight">@LouryXQTT1</a></span>
+            <div class="last-update-container">
+                <span class="last-update-text" id="type-footer"></span><span class="cursor"></span>
+            </div>
+            <p style="font-size: 0.7rem; opacity: 0.3; margin-top: 20px;">LouryXQ — 80+ отзывов, частное лицо.</p>
         </div>
     </div>
 
     <script>
-        // Анимация печати
-        const text = "Officiall Website LouryXQ.";
-        let i = 0;
-        function typeWriter() {
-            if (i < text.length) {
-                document.getElementById("typing-text").innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
+        // Анимация печати для заголовка
+        const titleText = "Officiall Website LouryXQ.";
+        const footerText = "последние изменения 1 апреля 2026 года . | . |";
+        
+        function type(elementId, text, speed, callback) {
+            let i = 0;
+            const el = document.getElementById(elementId);
+            function step() {
+                if (i < text.length) {
+                    el.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(step, speed);
+                } else if (callback) callback();
             }
+            step();
         }
 
-        // Фон со снегом
+        // Запуск анимаций
+        window.onload = () => {
+            type("type-title", titleText, 100, () => {
+                setTimeout(() => {
+                    type("type-footer", footerText, 80);
+                }, 500);
+            });
+            initScene();
+        };
+
+        // Снег и бабочки как на фото
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
 
-        function resize() {
+        function initScene() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            // Создаем снег (мелкие точки)
+            for(let i=0; i<60; i++) particles.push(new Particle('snow'));
+            // Создаем много белых бабочек
+            for(let i=0; i<15; i++) particles.push(new Particle('butterfly'));
+            animate();
         }
-        window.addEventListener('resize', resize);
-        resize();
 
-        class Snow {
-            constructor() { this.reset(); }
+        class Particle {
+            constructor(type) {
+                this.type = type;
+                this.reset();
+            }
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speed = Math.random() * 0.8 + 0.2;
+                this.size = this.type === 'snow' ? Math.random() * 2 : Math.random() * 4 + 2;
+                this.vx = (Math.random() - 0.5) * 1;
+                this.vy = Math.random() * 1 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.angle = Math.random() * Math.PI * 2;
             }
             update() {
-                this.y += this.speed;
-                if (this.y > canvas.height) this.y = -5;
+                this.y += this.vy;
+                this.x += this.vx + Math.sin(this.angle) * 0.5;
+                this.angle += 0.05;
+                if (this.y > canvas.height) this.y = -10;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
             }
             draw() {
-                ctx.fillStyle = "rgba(255,255,255,0.4)";
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-                ctx.fill();
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                if (this.type === 'snow') {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+                    ctx.fill();
+                } else {
+                    // Рисуем бабочку как две капли
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(Math.sin(this.angle) * 0.3);
+                    ctx.beginPath();
+                    ctx.ellipse(-2, 0, this.size, this.size/2, 0.5, 0, Math.PI*2);
+                    ctx.ellipse(2, 0, this.size, this.size/2, -0.5, 0, Math.PI*2);
+                    ctx.fill();
+                    ctx.restore();
+                }
             }
         }
-
-        for(let j=0; j<80; j++) particles.push(new Snow());
 
         function animate() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
             particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
         }
-
-        window.onload = () => { typeWriter(); animate(); };
     </script>
 </body>
 </html>
