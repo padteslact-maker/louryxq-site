@@ -1,1 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LouryXQ | Official Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Частицы (Снег) */
+        #snow-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            min-height: 100vh;
+        }
+
+        /* Эффект матового стекла */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Заголовок с анимацией печати */
+        .typing-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .creator-tag {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            min-height: 1.2em;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .highlight {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .highlight:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 5px;
+        }
+
+        li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: auto;
+            padding: 40px 0;
+        }
+
+        .secondary-projects {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Адаптив */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .container { padding: 20px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="snow-canvas"></canvas>
+
+    <div class="container">
+        <div class="typing-container">
+            <span class="creator-tag">Создатель Всех Проектов: <a href="https://t.me/LouryXQTT1" class="highlight">@LouryXQTT1</a></span>
+            <h1 id="typing-text"></h1>
+        </div>
+
+        <div class="glass-card">
+            <p>Это веб-сайт, созданный для информации обо мне и о том, какие я имею проекты и социальные сети.</p>
+        </div>
+
+        <div class="glass-card">
+            <h2>Основной проект</h2>
+            <p>Телеграм канал <a href="https://t.me/LouryXQ" class="highlight">@LouryXQ</a> — конфиги, читы, РП, клиенты и вся важная информация.</p>
+        </div>
+
+        <div class="glass-card">
+            <h2>Второй проект (Бот)</h2>
+            <p><a href="https://t.me/OfficiallLouryXQ_bot" class="highlight">@OfficiallLouryXQ_bot</a></p>
+            <p style="margin-top: 10px;">Я создал этого бота для помощи начинающим читерам. Здесь собрано всё необходимое для комфортной игры:</p>
+            <ul>
+                <li>Понятный интерфейс</li>
+                <li>Файлы .dll (ПК читы)</li>
+                <li>Файлы .apk (PE читы)</li>
+                <li>Конфигурации</li>
+                <li>Ресурспаки</li>
+                <li>Аддоны</li>
+            </ul>
+        </div>
+
+        <div class="glass-card">
+            <h2>Apollon Client</h2>
+            <p>Если хочешь скачать самую новую версию Чита <b>Apollon Client</b>, её можно найти в основном проекте или в канале <a href="https://t.me/UpdateApollonClient" class="highlight">@UpdateApollonClient</a>. Обновления выходят сразу и без лишних ссылок.</p>
+        </div>
+
+        <div class="glass-card secondary-projects">
+            <p>Заброшенные / Второстепенные проекты: 
+                <a href="https://t.me/ConfigurationForCheats" class="highlight">@ConfigurationForCheats</a>, 
+                <a href="https://t.me/tg_Music_Project_One" class="highlight">@tg_Music_Project_One</a>
+            </p>
+        </div>
+
+        <div class="footer-text">
+            LouryXQ является частным и порядочным человеком с 80+ отзывами и продает рекламу в своих телеграмм каналах.
+        </div>
+    </div>
+
+    <script>
+        // Анимация печати
+        const text = "Officiall Website LouryXQ.";
+        const speed = 100;
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                document.getElementById("typing-text").innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        // Снег на фоне
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speed = Math.random() * 1 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) this.y = -10;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 100; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = () => {
+            typeWriter();
+            animate();
+        };
+    </script>
+</body>
+</html>
 
