@@ -8,10 +8,9 @@
     <style>
         :root {
             --bg-color: #000000;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
             --accent-color: #ffffff;
-            --holo-butterfly: rgba(200, 255, 255, 0.2); /* Цвет бабочек, как на фото */
         }
 
         * {
@@ -29,7 +28,18 @@
             position: relative;
         }
 
-        /* Задний план с эффектами и бабочками */
+        /* Полоса справа */
+        body::after {
+            content: "";
+            position: fixed;
+            right: 10px;
+            top: 10%;
+            bottom: 10%;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent);
+            z-index: 10;
+        }
+
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -43,10 +53,10 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
             min-height: 100vh;
             position: relative;
             z-index: 2;
@@ -55,8 +65,8 @@
         /* Эффект матового стекла ( Glassmorphism ) */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border: 1px solid var(--glass-border);
             border-radius: 15px;
             padding: 20px;
@@ -64,26 +74,21 @@
         }
 
         .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         /* Заголовок с анимацией печати */
         .typing-container {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         h1 {
             font-size: 2.2rem;
             font-weight: 700;
             letter-spacing: -1px;
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--accent-color);
+            -webkit-font-smoothing: antialiased; /* Топ качество шрифта */
         }
 
         .highlight {
@@ -91,33 +96,111 @@
             text-decoration: underline;
             text-underline-offset: 4px;
             font-weight: 600;
+            opacity: 0.8;
         }
 
-        .highlight:hover { text-decoration: none; }
+        .highlight:hover { opacity: 1; }
 
         ul { list-style: none; margin-top: 10px; }
         li { padding-left: 20px; position: relative; margin-bottom: 5px; opacity: 0.9; }
         li::before { content: "•"; position: absolute; left: 0; color: #fff; }
 
-        .footer-text {
+        .footer-section {
             text-align: center;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.4);
-            margin-top: auto;
-            padding: 40px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px;
+            padding-bottom: 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
         }
 
-        /* Адаптив */
+        .creator-info {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .last-update {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Анимированные бабочки на фоне */
+        .background-butterfly {
+            position: fixed;
+            z-index: -1;
+            width: 150px;
+            height: auto;
+            pointer-events: none;
+            opacity: 0.15;
+            filter: blur(3px);
+            animation: floatButterfly 15s infinite ease-in-out;
+        }
+
+        .background-butterfly:nth-child(2) {
+            width: 100px;
+            top: 70%;
+            left: 10%;
+            animation-duration: 20s;
+            animation-delay: 2s;
+        }
+
+        .background-butterfly:nth-child(3) {
+            width: 80px;
+            top: 20%;
+            left: 70%;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatButterfly {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(10vw, -10vh) rotate(15deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
         @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .glass-card { padding: 15px; }
+            h1 { font-size: 1.6rem; }
+            body::after { right: 4px; }
+            .background-butterfly { width: 100px; }
         }
     </style>
 </head>
 <body>
 
     <canvas id="bg-canvas"></canvas>
+
+    <svg class="background-butterfly" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="holoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#80e0ff; stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#ff80ff; stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#80e0ff; stop-opacity:1" />
+            </linearGradient>
+            <mask id="wingsMask">
+                <path d="M100,75 L150,25 Q180,25 190,55 L190,95 Q180,125 150,125 Z M100,75 L50,25 Q20,25 10,55 L10,95 Q20,125 50,125 Z" fill="white"/>
+            </mask>
+        </defs>
+        <path d="M100,75 L150,25 Q180,25 190,55 L190,95 Q180,125 150,125 Z M100,75 L50,25 Q20,25 10,55 L10,95 Q20,125 50,125 Z" fill="url(#holoGradient)" mask="url(#wingsMask)"/>
+        <path d="M100,75 L100,20 Q105,15 105,10 M100,75 L100,20 Q95,15 95,10" stroke="white" stroke-width="1" fill="none"/>
+        <path d="M100,75 L102,130 Q100,135 98,130 Z" fill="white" opacity="0.8"/>
+    </svg>
+    <svg class="background-butterfly" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="holoGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#80e0ff; stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#ff80ff; stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#80e0ff; stop-opacity:1" />
+            </linearGradient>
+            <mask id="wingsMask2">
+                <path d="M100,75 L150,25 Q180,25 190,55 L190,95 Q180,125 150,125 Z M100,75 L50,25 Q20,25 10,55 L10,95 Q20,125 50,125 Z" fill="white"/>
+            </mask>
+        </defs>
+        <path d="M100,75 L150,25 Q180,25 190,55 L190,95 Q180,125 150,125 Z M100,75 L50,25 Q20,25 10,55 L10,95 Q20,125 50,125 Z" fill="url(#holoGradient2)" mask="url(#wingsMask2)"/>
+        <path d="M100,75 L100,20 Q105,15 105,10 M100,75 L100,20 Q95,15 95,10" stroke="white" stroke-width="1" fill="none"/>
+        <path d="M100,75 L102,130 Q100,135 98,130 Z" fill="white" opacity="0.8"/>
+    </svg>
 
     <div class="container">
         <div class="typing-container">
@@ -146,38 +229,41 @@
             </ul>
         </div>
 
-        <div class="footer-text">
-            LouryXQ является частным и порядочным человеком с 80+ отзывами.
+        <div class="glass-card">
+            <p>Скачать самую новую версию Чита <b>Apollon Client</b> можно в основном проекте или в канале <a href="https://t.me/UpdateApollonClient" class="highlight">@UpdateApollonClient</a> (без лишних ссылок).</p>
+        </div>
+
+        <div class="footer-section">
+            <p style="margin-bottom: 20px; font-size: 0.9rem; opacity: 0.5;">LouryXQ является частным и порядочным человеком с 80+ отзывами.</p>
+            <p class="creator-info">Создатель всех телеграмм проектов: <a href="https://t.me/LouryXQTT1" class="highlight">@LouryXQTT1</a></p>
+            <p class="last-update">последние изменения сайта 1 апреля 2026 года</p>
         </div>
     </div>
 
     <script>
+        // Анимация печати
         const text = "Officiall Website LouryXQ.";
-        const speed = 100;
         let i = 0;
-
         function typeWriter() {
             if (i < text.length) {
                 document.getElementById("typing-text").innerHTML += text.charAt(i);
                 i++;
-                setTimeout(typeWriter, speed);
+                setTimeout(typeWriter, 100);
             }
         }
 
+        // Фон со снегом
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        let butterflies = [];
 
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
-
         window.addEventListener('resize', resize);
         resize();
 
-        // Класс для летающих частиц (снега)
         class Snow {
             constructor() { this.reset(); }
             reset() {
@@ -188,5 +274,25 @@
             }
             update() {
                 this.y += this.speed;
-                if (this.y > canvas.height) this.y = -5
-        
+                if (this.y > canvas.height) this.y = -5;
+            }
+            draw() {
+                ctx.fillStyle = "rgba(255,255,255,0.4)";
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+                ctx.fill();
+            }
+        }
+
+        for(let j=0; j<80; j++) particles.push(new Snow());
+
+        function animate() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = () => { typeWriter(); animate(); };
+    </script>
+</body>
+</html>
